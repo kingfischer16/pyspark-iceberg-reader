@@ -1,0 +1,47 @@
+# Databricks Asset Bundle — pyspark-iceberg-reader integration tests
+#
+# Runs @pytest.mark.cluster tests on Databricks serverless compute.
+#
+# Setup:
+#   databricks configure --profile <your-profile>   # one-time
+#
+# Deploy and run:
+#   databricks bundle deploy --profile <your-profile>
+#   databricks bundle run integration_tests --profile <your-profile>
+#
+# The workspace host is read from your Databricks CLI profile (~/.databrickscfg).
+# Do NOT hardcode host URLs, credentials, or workspace IDs here.
+
+bundle:
+  name: pyspark-iceberg-reader
+
+targets:
+  dev:
+    default: true
+    mode: development
+  # Used by GitHub Actions (DATABRICKS_HOST + DATABRICKS_TOKEN env vars, no profile).
+  ci:
+    mode: development
+
+resources:
+  jobs:
+    integration_tests:
+      name: "iceberg-reader-integration-tests [${bundle.target}]"
+
+      # Serverless tasks require dependencies in environments, not in task libraries.
+      # pyspark_iceberg_reader itself is installed from the uploaded source files
+      # by cluster_test_runner.py at runtime (no wheel build needed).
+      environments:
+        - environment_key: "default"
+          spec:
+            client: "1"
+
+      tasks:
+        - task_key: run_cluster_tests
+          spark_python_task:
+            python_file: ${workspace.file_path}/scripts/cluster_test_runner.py
+            parameters:
+              - "--tb=short"
+              - "-v"
+              - "--no-header"
+          environment_key: "default"

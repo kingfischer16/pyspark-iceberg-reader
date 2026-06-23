@@ -1,0 +1,53 @@
+{
+  "format-version": 2,
+  "table-uuid": "9c12d441-03fe-4693-9a96-a0705ddf69c1",
+  "location": "s3://test-bucket/warehouse/db/events",
+  "last-sequence-number": 1,
+  "last-updated-ms": 1602638573590,
+  "last-column-id": 3,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {"id": 1, "name": "id",       "required": true,  "type": "long"},
+        {"id": 2, "name": "data",     "required": false, "type": "string"},
+        {"id": 3, "name": "category", "required": false, "type": "string"}
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": [
+        {
+          "name": "category_identity",
+          "transform": "identity",
+          "source-id": 3,
+          "field-id": 1000
+        }
+      ]
+    }
+  ],
+  "last-partition-id": 1000,
+  "default-sort-order-id": 0,
+  "sort-orders": [{"order-id": 0, "fields": []}],
+  "properties": {},
+  "current-snapshot-id": 3776207205136740864,
+  "snapshots": [
+    {
+      "snapshot-id": 3776207205136740864,
+      "sequence-number": 1,
+      "timestamp-ms": 1602638573590,
+      "manifest-list": "s3://test-bucket/warehouse/db/events/metadata/snap-3776207205136740864-1-abc.avro",
+      "schema-id": 0,
+      "summary": {"operation": "append"}
+    }
+  ],
+  "snapshot-log": [
+    {"timestamp-ms": 1602638573590, "snapshot-id": 3776207205136740864}
+  ],
+  "metadata-log": []
+}

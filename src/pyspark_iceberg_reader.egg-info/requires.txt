@@ -1,0 +1,7 @@
+
+[dev]
+pyspark[avro]==4.0.0
+pytest>=8
+
+[pyiceberg]
+pyiceberg>=0.7
